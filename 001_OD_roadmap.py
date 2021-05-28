@@ -9,3 +9,7 @@ YOLO v1 을 이해하는 로드맵
 6. Anchor Box
 7. YOLO v1
 '''
+
+# Localization with classification
+# Detecting one object per image
+
