@@ -2,7 +2,7 @@ import os
 import xml.etree
 from numpy import zeros, asarray
 import sys
-sys.path.append('C:\\tp\\Mask-RCNN-TF2')
+sys.path.append('C:\\tp\\mask')
 
 import mrcnn.utils
 import mrcnn.config
@@ -178,12 +178,12 @@ class LaneConfig(mrcnn.config.Config):
 
 # Train
 train_dataset = BalloonDataset()
-train_dataset.load_balloon(dataset_dir='C:/tp/Mask-RCNN-TF2/lane_detect/lane', subset='train')
+train_dataset.load_balloon(dataset_dir='C:/tp/mask/lane_detect/lane', subset='train')
 train_dataset.prepare()
 
 # Validation
 validation_dataset = BalloonDataset()
-validation_dataset.load_balloon(dataset_dir='C:/tp/Mask-RCNN-TF2/lane_detect/lane', subset='val')
+validation_dataset.load_balloon(dataset_dir='C:/tp/mask/lane_detect/lane', subset='val')
 validation_dataset.prepare()
 
 # Model Configuration
@@ -194,7 +194,7 @@ model = mrcnn.model.MaskRCNN(mode='training',
                              model_dir='./', 
                              config=lane_config)
 
-model.load_weights(filepath='Mask-RCNN-TF2/mask_rcnn_coco.h5', 
+model.load_weights(filepath='mask/mask_rcnn_coco.h5', 
                    by_name=True, 
                    exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
 
