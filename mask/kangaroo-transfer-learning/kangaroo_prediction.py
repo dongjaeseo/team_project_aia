@@ -1,5 +1,5 @@
 import sys
-sys.path.append('C:\\tp\\Mask-RCNN-TF2')
+sys.path.append('C:\\tp\\mask')
 
 import mrcnn
 import mrcnn.config
@@ -35,8 +35,8 @@ model.load_weights(filepath="C:\\tp\\lane_mask_rcnn_trained.h5",
                    by_name=True)
 
 # load the input image, convert it from BGR to RGB channel
-image = cv2.imread("C:\\tp\\Mask-RCNN-TF2\\lane_detect\\lane\\images\\20210529_152508_1.jpg")
-# image = cv2.imread("C:\\tp\\Mask-RCNN-TF2\\lane_detect\\lane\\images\\20210529_152438.jpg")
+image = cv2.imread("C:\\tp\\mask\\lane_detect\\lane\\images\\20210529_152508_1.jpg")
+# image = cv2.imread("C:\\tp\\mask\\lane_detect\\lane\\images\\20210529_152438.jpg")
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 # Perform a forward pass of the network to obtain the results
@@ -56,8 +56,8 @@ mrcnn.visualize.display_instances(image=image,
 '''
 import numpy as np
 import matplotlib.pyplot as plt
-plt.imshow(r['masks'][:,:,1])
+plt.imshow(r['masks'][:,:,0])
 plt.show()
-# print(np.where(r['masks']==True))
-# print(r['masks'])
-# print(r['masks'].shape)
+print(np.where(r['masks']==True))
+print(r['masks'])
+print(r['masks'].shape)

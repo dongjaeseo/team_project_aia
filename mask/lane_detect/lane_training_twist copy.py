@@ -6,7 +6,7 @@ sys.path.append('C:\\tp\\mask')
 
 import mrcnn.utils
 import mrcnn.config
-import mrcnn.model
+import mrcnn.model_copy
 import json
 import skimage
 import numpy as np
@@ -190,7 +190,7 @@ validation_dataset.prepare()
 lane_config = LaneConfig()
 
 # Build the Mask R-CNN Model Architecture
-model = mrcnn.model.MaskRCNN(mode='training', 
+model = mrcnn.model_copy.MaskRCNN(mode='training', 
                              model_dir='./', 
                              config=lane_config)
 
@@ -198,9 +198,10 @@ model.load_weights(filepath='mask/mask_rcnn_coco.h5',
                    by_name=True, 
                    exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
 
-model.keras_model.summary()
-from keras.utils.vis_utils import plot_model
-plot_model(model.keras_model, to_file = 'model_plot.png', show_shapes=True, show_layer_names= True)
+# model.keras_model.summary()
+# model.keras_model
+# from keras.utils.vis_utils import plot_model
+# plot_model(model.keras_model, to_file = 'model_plot1.png', show_shapes=True, show_layer_names= True)
 '''
 model.train(train_dataset=train_dataset, 
             val_dataset=validation_dataset, 
