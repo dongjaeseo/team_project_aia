@@ -204,7 +204,7 @@ model.load_weights(filepath='mask/mask_rcnn_coco.h5',
 model.train(train_dataset=train_dataset, 
             val_dataset=validation_dataset, 
             learning_rate=lane_config.LEARNING_RATE, 
-            epochs=1, 
+            epochs=20, 
             layers='heads')
 
 model_path = 'lane_mask_rcnn_trained.h5'

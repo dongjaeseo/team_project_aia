@@ -35,7 +35,8 @@ model.load_weights(filepath="C:\\tp\\lane_mask_rcnn_trained.h5",
                    by_name=True)
 
 # load the input image, convert it from BGR to RGB channel
-image = cv2.imread("C:\\Users\\ai\\Desktop\\20210529_152707.jpg")
+# image = cv2.imread("C:\\Users\\ai\\Desktop\\20210529_152707.jpg")
+image = cv2.imread("C:\\Users\\ai\\Desktop\\20210529_152707(1).jpg")
 # image = cv2.imread("C:\\tp\\mask\\lane_detect\\lane\\images\\20210529_152438.jpg")
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
