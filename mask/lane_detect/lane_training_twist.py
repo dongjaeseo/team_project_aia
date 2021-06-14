@@ -40,9 +40,8 @@ class BalloonDataset(mrcnn.utils.Dataset):
         # }
         # We mostly care about the x and y coordinates of each region
         # Note: In VIA 2.0, regions was changed from a dict to a list.
-        for i in range(6):
-            annotations = json.load(open(os.path.join(dataset_dir, f"annots/via_{i}.json")))
-            annotations = list(annotations.values())
+        annotations = json.load(open(os.path.join(dataset_dir, "annots/via_export_json.json")))
+        annotations = list(annotations.values())
 
         # The VIA tool saves images in the JSON even if they don't have any
         # annotations. Skip unannotated images.
@@ -198,10 +197,10 @@ model.load_weights(filepath='mask/mask_rcnn_coco.h5',
                    by_name=True, 
                    exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
 
-model.keras_model.summary()
-from keras.utils.vis_utils import plot_model
-plot_model(model.keras_model, to_file = 'model_plot.png', show_shapes=True, show_layer_names= True)
-'''
+# model.keras_model.summary()
+# from keras.utils.vis_utils import plot_model
+# plot_model(model.keras_model, to_file = 'model_plot.png', show_shapes=True, show_layer_names= True)
+
 model.train(train_dataset=train_dataset, 
             val_dataset=validation_dataset, 
             learning_rate=lane_config.LEARNING_RATE, 
@@ -210,4 +209,3 @@ model.train(train_dataset=train_dataset,
 
 model_path = 'lane_mask_rcnn_trained.h5'
 model.keras_model.save_weights(model_path)
-'''
