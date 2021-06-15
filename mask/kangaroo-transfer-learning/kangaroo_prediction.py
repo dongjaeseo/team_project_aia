@@ -53,17 +53,11 @@ r = r[0]
 #                                   masks=r['masks'],
 #                                   class_ids=r['class_ids'],
 #                                   class_names=CLASS_NAMES,
-#                                   scores=r['scores'])
+                                #   scores=r['scores'])
 
 import numpy as np
 import matplotlib.pyplot as plt
 plt.imshow(r['masks'][:,:,0])
 plt.show()
 print(np.where(r['masks']==True))
-print(r['masks'])
 print(r['masks'].shape)
-print(r)
-
-조향각 + 
-데이터를 더 수집할수 있다면 
-스탑표
