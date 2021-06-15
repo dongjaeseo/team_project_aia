@@ -57,7 +57,11 @@ r = r[0]
 
 import numpy as np
 import matplotlib.pyplot as plt
-plt.imshow(r['masks'][:,:,0])
-plt.show()
+# plt.imshow(r['masks'][:,:,0])
+# plt.show()
+
+print(r['masks'].shape) # (4032, 3024, 1)
 print(np.where(r['masks']==True))
-print(r['masks'].shape)
+print(r['masks'][1344].shape)
+a = np.where(r['masks'][1344]==True)[0]
+print((a[-1]-a[0])/2)
