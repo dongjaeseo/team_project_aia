@@ -60,8 +60,31 @@ import matplotlib.pyplot as plt
 # plt.imshow(r['masks'][:,:,0])
 # plt.show()
 
-print(r['masks'].shape) # (4032, 3024, 1)
-print(np.where(r['masks']==True))
-print(r['masks'][1344].shape)
+# print(r['masks'].shape) # (4032, 3024, 1)
+# print(np.where(r['masks']==True))
+# print(r['masks'][1344].shape)
 a = np.where(r['masks'][1344]==True)[0]
-print((a[-1]-a[0])/2)
+print(a)
+print((a[-1]+a[0])/2)
+
+import cv2
+import time
+cap = cv2.VideoCapture('C:/tp/video/vid0.mov')
+frame_rate = 10
+prev = 0
+
+while True: # 무한 루프
+    time_elapsed = time.time() - prev
+    ret, frame = cap.read() # 두 개의 값을 반환하므로 두 변수 지정
+
+    if not ret: # 새로운 프레임을 못받아 왔을 때 braek
+        break
+
+    if time_elapsed > 1./frame_rate:
+        prev = time.time()
+
+    if ret:
+        img = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+        cv2.imshow('img', img)
+        cv2.waitKey(0)
+
