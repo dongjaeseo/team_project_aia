@@ -70,8 +70,9 @@ print((a[-1]+a[0])/2)
 import cv2
 import time
 cap = cv2.VideoCapture('C:/tp/video/vid0.mov')
-frame_rate = 10
+frame_rate = 60
 prev = 0
+# label = 0
 
 while True: # 무한 루프
     time_elapsed = time.time() - prev
@@ -83,8 +84,29 @@ while True: # 무한 루프
     if time_elapsed > 1./frame_rate:
         prev = time.time()
 
-    if ret:
-        img = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
-        cv2.imshow('img', img)
-        cv2.waitKey(0)
+        if ret:
+            img = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+            # cv2.imshow('img', img)
+            # cv2.waitKey(0)
 
+            r = model.detect([img], verbose=0)
+            r = r[0]
+            
+            # mrcnn.visualize.display_instances(image=img,
+            #                       boxes=r['rois'],
+            #                       masks=r['masks'],
+            #                       class_ids=r['class_ids'],
+            #                       class_names=CLASS_NAMES,
+            #                       scores=r['scores'])
+            max_true = max([np.count_nonzero(a==True) for a in r['masks']])
+            r['masks'] = np.where(np.count_nonzero(r['masks']==True)==max_true)[0]
+            print(r['masks'])
+            
+            try:
+                a = np.where(r['masks'][960]==True)[0]
+                print(a)
+                label = (a[-1]+a[0])/2
+                print(label)
+            except:
+                # print(label)
+                pass
