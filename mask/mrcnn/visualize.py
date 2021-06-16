@@ -63,7 +63,8 @@ def random_colors(N, bright=True):
     convert to RGB.
     """
     brightness = 1.0 if bright else 0.7
-    hsv = [(i / N, 1, brightness) for i in range(N)]
+    # hsv = [(i / N, 1, brightness) for i in range(N)]
+    hsv = [(0.75 , 1, brightness) for i in range(N)]
     colors = list(map(lambda c: colorsys.hsv_to_rgb(*c), hsv))
     random.shuffle(colors)
     return colors
@@ -114,19 +115,19 @@ def display_instances(image, boxes, masks, class_ids, class_names,
 
     # If no axis is passed, create one and automatically call show()
     auto_show = False
-    if not ax:
-        _, ax = plt.subplots(1, figsize=figsize)
-        auto_show = True
+    # if not ax:
+    #     _, ax = plt.subplots(1, figsize=figsize)
+    #     auto_show = True
 
     # Generate random colors
     colors = colors or random_colors(N)
 
     # Show area outside image boundaries.
     height, width = image.shape[:2]
-    ax.set_ylim(height + 10, -10)
-    ax.set_xlim(-10, width + 10)
-    ax.axis('off')
-    ax.set_title(title)
+    # ax.set_ylim(height + 10, -10)
+    # ax.set_xlim(-10, width + 10)
+    # ax.axis('off')
+    # ax.set_title(title)
 
     masked_image = image.astype(np.uint32).copy()
     for i in range(N):
@@ -144,7 +145,8 @@ def display_instances(image, boxes, masks, class_ids, class_names,
         elif scores[i] < min_score:
             continue
 
-        color = colors[i]
+        # color = colors[i]
+        color = colors[0]
 
         # Bounding box
         if not np.any(boxes[i]):
@@ -152,11 +154,15 @@ def display_instances(image, boxes, masks, class_ids, class_names,
             continue
         y1, x1, y2, x2 = boxes[i]
         if show_bbox:
+            pass
+            '''
             p = patches.Rectangle((x1, y1), x2 - x1, y2 - y1, linewidth=2,
                                 alpha=0.7, #linestyle="dashed",
                                 edgecolor=color, facecolor='none')
             ax.add_patch(p)
+            '''
 
+        '''
         if show_caption:
             # Label
             if not captions:
@@ -168,6 +174,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
                 caption = captions[i]
             ax.text(x1, y1 + 8, caption,
                     color='w', size=11, backgroundcolor="none")
+        '''
 
         # Mask
         mask = masks[:, :, i]
@@ -185,12 +192,15 @@ def display_instances(image, boxes, masks, class_ids, class_names,
                 # Subtract the padding and flip (y, x) to (x, y)
                 verts = np.fliplr(verts) - 1
                 p = Polygon(verts, facecolor="none", edgecolor=color)
-                ax.add_patch(p)
-    ax.imshow(masked_image.astype(np.uint8))
+                # ax.add_patch(p)
+    # ax.imshow(masked_image.astype(np.uint8))
+
     if not (save_fig_path is None):
         plt.savefig(save_fig_path, bbox_inches="tight")
     if auto_show:
-        plt.show()
+        # plt.show()
+        pass
+    return masked_image.astype(np.uint8)
 
 def display_differences(image,
                         gt_box, gt_class_id, gt_mask,
