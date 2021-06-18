@@ -69,71 +69,66 @@ print((a[-1]+a[0])/2)
 
 import cv2
 import time
-cap = cv2.VideoCapture('C:/tp/video/vid2.mov')
-frame_rate = 60.03
-prev = 0
-label = 0
-j = 0
-file = open('C:\\tp\\label.txt', 'w+')
-img_array = []
 
-while True: # 무한 루프
-    ret, frame = cap.read() # 두 개의 값을 반환하므로 두 변수 지정
+for k in range(5):
+    cap = cv2.VideoCapture(f'C:/tp/video/vid{k}.mov')
+    label = 0
+    j = 0
+    file = open(f'C:\\tp\\label{k}.txt', 'w+')
+    img_array = []
 
-    if not ret: # 새로운 프레임을 못받아 왔을 때 braek
-        break
+    while True:
+        ret, frame = cap.read()
+
+        if not ret:
+            break
 
 
-    if ret:
-        img = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
-        # cv2.imshow('img', img)
-        # cv2.waitKey(0)
+        if ret:
+            img = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
 
-        r = model.detect([img], verbose=0)
-        r = r[0]
-        
-        new_img = mrcnn.visualize.display_instances(image=img,
-                                boxes=r['rois'],
-                                masks=r['masks'],
-                                class_ids=r['class_ids'],
-                                class_names=CLASS_NAMES,
-                                scores=r['scores'])
-        # print(type(new_img), new_img.shape)
+            r = model.detect([img], verbose=0)
+            r = r[0]
+            
+            new_img = mrcnn.visualize.display_instances(image=img,
+                                    boxes=r['rois'],
+                                    masks=r['masks'],
+                                    class_ids=r['class_ids'],
+                                    class_names=CLASS_NAMES,
+                                    scores=r['scores'])
 
-        img_array.append(new_img)
-        # cv2.imshow('new_img', new_img)
-        # cv2.waitKey()
+            img_array.append(new_img)
 
-        mask_len = len(r['masks'][0][0])
-        # print('######################################################')
-        mask_count = 0
-        index = None
-        for i in range(mask_len):
-            mask = r['masks'][:,:,i]
-            temp = np.count_nonzero(mask == True)
-            if temp > mask_count:
-                mask_count = temp
-                index = i
+            mask_len = len(r['masks'][0][0])
+            mask_count = 0
+            index = None
+            for i in range(mask_len):
+                mask = r['masks'][:,:,i]
+                temp = np.count_nonzero(mask == True)
+                if temp > mask_count:
+                    mask_count = temp
+                    index = i
 
-        try:
-            a = np.where(r['masks'][960,:,index]==True)[0]
-            label = (a[-1]+a[0])/2
-            file.write(f'{j}\t{label}\n')
+            try:
+                a = np.where(r['masks'][960,:,index]==True)[0]
+                label = (a[-1]+a[0])/2
+                print('label :', label)
+                file.write(f'{j}\t{label}\n')
 
-        except:
-            file.write(f'{j}\t{label}\n')
+            except:
+                file.write(f'{j}\t{label}\n')
 
-        j += 1
+            j += 1
 
-file.close()
+    file.close()
 
-print(np.array(img_array).shape)
-size = (720, 1280)
+    print(np.array(img_array).shape)
+    size = (720, 1280)
 
-out = cv2.VideoWriter('C:\\tp\\video\\video.avi', cv2.VideoWriter_fourcc(*'DIVX'), 60.03, size)
- 
-for i in range(len(img_array)):
-    out.write(img_array[i])
-cap.release()
-out.release()
-cv2.destroyAllWindows()
+    out = cv2.VideoWriter(f'C:\\tp\\video\\video{k}.avi', cv2.VideoWriter_fourcc(*'DIVX'), 60.03, size)
+    
+    for i in range(len(img_array)):
+        out.write(img_array[i])
+    cap.release()
+    out.release()
+    cv2.destroyAllWindows()
